@@ -99,6 +99,7 @@ function onSearchAddress(ev) {
     const el = document.querySelector('[name=address]')
     mapService.lookupAddressGeo(el.value)
         .then(geo => {
+            geo.zoom = 15
             mapService.panTo(geo)
         })
         .catch(err => {
