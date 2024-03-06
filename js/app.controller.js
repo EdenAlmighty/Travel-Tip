@@ -63,7 +63,8 @@ function renderLocs(locs) {
     elLocList.innerHTML = strHTML || 'No locs to show'
 
     renderLocStats()
-
+    renderLocUpdateStats()
+    
     if (selectedLocId) {
         const selectedLoc = locs.find(loc => loc.id === selectedLocId)
         displayLoc(selectedLoc)
@@ -73,17 +74,17 @@ function renderLocs(locs) {
 
 function onRemoveLoc(locId) {
     const isConfirmed = confirm('sure?')
-    if(isConfirmed){
+    if (isConfirmed) {
         locService.remove(locId)
-        .then(() => {
-            flashMsg('Location removed')
-            unDisplayLoc()
-            loadAndRenderLocs()
-        })
-        .catch(err => {
-            console.error('OOPs:', err)
-            flashMsg('Cannot remove location')
-        })
+            .then(() => {
+                flashMsg('Location removed')
+                unDisplayLoc()
+                loadAndRenderLocs()
+            })
+            .catch(err => {
+                console.error('OOPs:', err)
+                flashMsg('Cannot remove location')
+            })
     }
 }
 
@@ -145,7 +146,7 @@ function onPanToUserPos() {
         })
 }
 
-function setUserPos(latLng){
+function setUserPos(latLng) {
     gUserPos = latLng
 }
 
@@ -194,7 +195,7 @@ function displayLoc(loc) {
     el.querySelector('[name=loc-copier]').value = window.location
     el.classList.add('show')
 
-    utilService.updateQueryParams({ locId: loc.id, geo: loc.geo.address})
+    utilService.updateQueryParams({ locId: loc.id, geo: loc.geo.address })
 }
 
 function unDisplayLoc() {
@@ -246,7 +247,7 @@ function onSetSortBy() {
 
     const sortBy = {}
     sortBy[prop] = (isDesc) ? -1 : 1
-    
+
     // Shorter Syntax:
     // const sortBy = {
     //     [prop] : (isDesc)? -1 : 1
@@ -267,12 +268,19 @@ function renderLocStats() {
         handleStats(stats, 'loc-stats-rate')
     })
 }
+function renderLocUpdateStats() {
+    locService.getLocUpdateTimeMap().then(stats => {
+        handleStats(stats, 'loc-stats-update')
+    })
+}
 
 function handleStats(stats, selector) {
     // stats = { low: 37, medium: 11, high: 100, total: 148 }
     // stats = { low: 5, medium: 5, high: 5, baba: 55, mama: 30, total: 100 }
     const labels = cleanStats(stats)
     const colors = utilService.getColors()
+
+    // console.log(stats,selector);
 
     var sumPercent = 0
     var colorsStr = `${colors[0]} ${0}%, `
@@ -292,10 +300,11 @@ function handleStats(stats, selector) {
     // colorsStr = `purple 0%, purple 33%, blue 33%, blue 67%, red 67%, red 100%`
 
     const elPie = document.querySelector(`.${selector} .pie`)
+    console.log(elPie);
     const style = `background-image: conic-gradient(${colorsStr})`
     elPie.style = style
 
-    const ledendHTML = labels.map((label, idx) => {
+    const legendHTML = labels.map((label, idx) => {
         return `
                 <li>
                     <span class="pie-label" style="background-color:${colors[idx]}"></span>
@@ -305,7 +314,7 @@ function handleStats(stats, selector) {
     }).join('')
 
     const elLegend = document.querySelector(`.${selector} .legend`)
-    elLegend.innerHTML = ledendHTML
+    elLegend.innerHTML = legendHTML
 }
 
 function cleanStats(stats) {
