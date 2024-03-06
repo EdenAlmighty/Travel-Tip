@@ -43,7 +43,7 @@ function renderLocs(locs) {
         <li class="loc ${className}" data-id="${loc.id}">
             <h4>  
                 <span>${loc.name}</span>
-                <span>${gUserPos ? 'Distane:' + utilService.getDistance(gUserPos,getPos(loc.geo.lat,loc.geo.lng),'K') + ' km' : ''}
+                <span>${gUserPos ? 'Distance:' + utilService.getDistance(gUserPos, loc.geo, 'K') + ' km' : ''}
                 <span title="${loc.rate} stars">${'★'.repeat(loc.rate)}</span>
             </h4>
             <p class="muted">
@@ -71,9 +71,6 @@ function renderLocs(locs) {
     document.querySelector('.debug').innerText = JSON.stringify(locs, null, 2)
 }
 
-function getPos(lat,lng){
-    return {lat,lng}
-}
 function onRemoveLoc(locId) {
     const isConfirmed = confirm('sure?')
     if(isConfirmed){
@@ -187,10 +184,12 @@ function displayLoc(loc) {
 
     mapService.panTo(loc.geo)
     mapService.setMarker(loc)
+    const distance = gUserPos ? 'Distance:' + utilService.getDistance(gUserPos, loc.geo, 'K') + ' km' : ''
 
     const el = document.querySelector('.selected-loc')
     el.querySelector('.loc-name').innerText = loc.name
     el.querySelector('.loc-address').innerText = loc.geo.address
+    el.querySelector('.loc-distance').innerText = distance
     el.querySelector('.loc-rate').innerHTML = '★'.repeat(loc.rate)
     el.querySelector('[name=loc-copier]').value = window.location
     el.classList.add('show')
