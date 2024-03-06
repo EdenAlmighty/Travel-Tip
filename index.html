@@ -67,6 +67,18 @@
                 </section>
             </section>
         </div>
+        <dialog class="add-and-update">
+            <form onsubmit="app.onSumbit(event)">
+                <button onclick="app.onCloseModal(event)" class="close-modal">X</button>
+                <div class="text-input-container">
+                    <label for="loc-name-input">Enter location name</label>
+                    <input type="text" class="loc-name-input" id="loc-name-input">
+                </div>
+                <label for="rating-input">Enter rating (1-5)</label>
+                <input type="number" name="rating-input" min="1" max="5" class="rate-input"/>
+                <button class="submit-modal" type="submit">Sumbit</button>
+            </form>
+        </dialog>
     </main>
     <pre class="debug" hidden></pre>
     <div class="user-msg"></div>
