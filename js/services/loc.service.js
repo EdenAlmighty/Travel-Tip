@@ -36,7 +36,7 @@ export const locService = {
 function query() {
     return storageService.query(DB_KEY)
         .then(locs => {
-            if (gFilterBy.txt) {
+            if (gFilterBy.txt && gFilterBy.geo.address) {
                 const regex = new RegExp(gFilterBy.txt, 'i')
                 locs = locs.filter(loc => regex.test(loc.name) || regex.test(loc.geo.address))
             }
@@ -57,6 +57,7 @@ function query() {
             } else if (gSortBy.created !== undefined){
                 locs.sort((p1,p2) => (p1.rate - p2.rate) * gSortBy.created)
             }
+        
 
             return locs
         })

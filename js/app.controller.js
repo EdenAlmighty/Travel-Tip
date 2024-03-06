@@ -184,7 +184,7 @@ function displayLoc(loc) {
     el.querySelector('[name=loc-copier]').value = window.location
     el.classList.add('show')
 
-    utilService.updateQueryParams({ locId: loc.id })
+    utilService.updateQueryParams({ locId: loc.id, geo: loc.geo.address})
 }
 
 function unDisplayLoc() {
@@ -246,8 +246,8 @@ function onSetSortBy() {
     loadAndRenderLocs()
 }
 
-function onSetFilterBy({ txt, minRate }) {
-    const filterBy = locService.setFilterBy({ txt, minRate: +minRate })
+function onSetFilterBy({ txt, minRate, geo }) {
+    const filterBy = locService.setFilterBy({ txt, minRate: +minRate, geo })
     utilService.updateQueryParams(filterBy)
     loadAndRenderLocs()
 }
