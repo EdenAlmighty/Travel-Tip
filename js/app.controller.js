@@ -18,6 +18,8 @@ window.app = {
     onSetFilterBy,
 }
 
+var gUserPos = ''
+
 function onInit() {
     loadAndRenderLocs()
 
@@ -41,6 +43,7 @@ function renderLocs(locs) {
         <li class="loc ${className}" data-id="${loc.id}">
             <h4>  
                 <span>${loc.name}</span>
+                <span>${gUserPos ? 'Distane:' + utilService.getDistance(gUserPos,getPos(loc.geo.lat,loc.geo.lng),'K') + ' km' : ''}
                 <span title="${loc.rate} stars">${'★'.repeat(loc.rate)}</span>
             </h4>
             <p class="muted">
@@ -68,6 +71,9 @@ function renderLocs(locs) {
     document.querySelector('.debug').innerText = JSON.stringify(locs, null, 2)
 }
 
+function getPos(lat,lng){
+    return {lat,lng}
+}
 function onRemoveLoc(locId) {
     const isConfirmed = confirm('sure?')
     if(isConfirmed){
@@ -132,6 +138,7 @@ function onPanToUserPos() {
         .then(latLng => {
             mapService.panTo({ ...latLng, zoom: 15 })
             unDisplayLoc()
+            setUserPos(latLng)
             loadAndRenderLocs()
             flashMsg(`You are at Latitude: ${latLng.lat} Longitude: ${latLng.lng}`)
         })
@@ -139,6 +146,10 @@ function onPanToUserPos() {
             console.error('OOPs:', err)
             flashMsg('Cannot get your position')
         })
+}
+
+function setUserPos(latLng){
+    gUserPos = latLng
 }
 
 function onUpdateLoc(locId) {
