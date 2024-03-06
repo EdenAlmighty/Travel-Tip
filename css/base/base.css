@@ -1,12 +1,13 @@
 body {
     background-color: var(--bg1);
-    color: #eee;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--bgTxt);
     overflow-x: hidden;
 }
 
 header {
     background-color: var(--bg2);
-    color: aliceblue;
+    color: var(--color1);
     padding: 0.3em;
 }
 
