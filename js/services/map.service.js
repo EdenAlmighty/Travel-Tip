@@ -1,3 +1,4 @@
+import { keyService } from './keys.service.js'
 
 export const mapService = {
     initMap,
@@ -8,7 +9,6 @@ export const mapService = {
     addClickListener
 }
 
-import { keyService } from './keys.service.js'
 
 
 // TODO: Enter your API Key

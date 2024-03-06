@@ -18,7 +18,8 @@ window.app = {
     onSetFilterBy,
     onSumbit,
     getUpdateLoc,
-    onCloseModal
+    onCloseModal,
+    setTheme
 }
 
 var gUserPos = ''
@@ -69,7 +70,7 @@ function renderLocs(locs) {
 
     renderLocStats()
     renderLocUpdateStats()
-    
+
     if (selectedLocId) {
         const selectedLoc = locs.find(loc => loc.id === selectedLocId)
         displayLoc(selectedLoc)
@@ -107,28 +108,27 @@ function onSearchAddress(ev) {
 }
 
 function onUpdateLoc(locId) {
-    Promise.all([locService.getById(locId),getUpdateLoc()])
-    .then((values) => {
-        if (values[0] && values[1]){
-            const rate = values[1].rate
-            const loc = values[0]
-            console.log(rate,loc);
-            if (rate !== loc.rate) {
-                loc.rate = rate
-                locService.save(loc)
-                    .then(savedLoc => {
-                        flashMsg(`Rate was set to: ${savedLoc.rate}`)
-                        loadAndRenderLocs()
-                    })
-                    .catch(err => {
-                        console.error('OOPs:', err)
-                        flashMsg('Cannot update location')
-                    })
-    
-            }   
-        }
-  
-    })
+    Promise.all([locService.getById(locId), getUpdateLoc()])
+        .then((values) => {
+            if (values[0] && values[1]) {
+                const rate = values[1].rate
+                const loc = values[0]
+                if (rate !== loc.rate) {
+                    loc.rate = rate
+                    locService.save(loc)
+                        .then(savedLoc => {
+                            flashMsg(`Rate was set to: ${savedLoc.rate}`)
+                            loadAndRenderLocs()
+                        })
+                        .catch(err => {
+                            console.error('OOPs:', err)
+                            flashMsg('Cannot update location')
+                        })
+
+                }
+            }
+
+        })
 }
 
 function onAddLoc(geo) {
@@ -138,7 +138,7 @@ function onAddLoc(geo) {
                 return {
                     name: userData.name,
                     rate: userData.rate,
-                    geo:geo
+                    geo: geo
                 }
         })
         .then(res => locService.save(res))
@@ -153,28 +153,28 @@ function onAddLoc(geo) {
         })
 }
 
-function getUpdateLoc(){
+function getUpdateLoc() {
     document.querySelector('.add-and-update').style.display = 'block'
     document.querySelector('.text-input-container').style.display = 'none'
-    return new Promise (resolve => {
+    return new Promise(resolve => {
         gKeepResolve = resolve
     })
 }
 
-function getAddLoc(){
+function getAddLoc() {
     const elDialog = document.querySelector('.add-and-update')
     document.querySelector('.text-input-container').style.display = 'block'
     elDialog.style.display = 'block'
-    return new Promise (resolve => {
+    return new Promise(resolve => {
         gKeepResolve = resolve
     })
 }
 
-function onSumbit(event){
+function onSumbit(event) {
     event.preventDefault()
     const name = document.querySelector('.loc-name-input').value
     const rate = document.querySelector('.rate-input').value
-    if (name){
+    if (name) {
         gUserData = {
             name: name,
             rate: rate
@@ -182,14 +182,12 @@ function onSumbit(event){
     } else {
         gUserData.rate = rate
     }
-    // console.log(userData);
     const elDialog = document.querySelector('.add-and-update')
     elDialog.style.display = 'none'
-    // gUserData = undefined
     gKeepResolve(gUserData)
 }
 
-function onCloseModal(ev){
+function onCloseModal(ev) {
     ev.preventDefault()
     document.querySelector('.add-and-update').style.display = 'none'
     gKeepResolve = undefined
@@ -233,6 +231,12 @@ function onSelectLoc(locId) {
         })
 }
 
+function setTheme() {
+    // ev.preventDefault()
+    const root = document.documentElement
+    root.classList.toggle('dark-mode')
+}
+
 function displayLoc(loc) {
     document.querySelector('.loc.active')?.classList?.remove('active')
     document.querySelector(`.loc[data-id="${loc.id}"]`).classList.add('active')
@@ -244,7 +248,7 @@ function displayLoc(loc) {
     const el = document.querySelector('.selected-loc')
     el.querySelector('.loc-name').innerText = loc.name
     el.querySelector('.loc-address').innerText = loc.geo.address
-    el.querySelector('.loc-distance').innerText = distance
+    el.querySelector('.loc-distance').innerText = distance ? 'Distance: ' + distance : ''
     el.querySelector('.loc-rate').innerHTML = '★'.repeat(loc.rate)
     el.querySelector('[name=loc-copier]').value = window.location
     el.classList.add('show')
@@ -296,7 +300,6 @@ function getLocIdFromQueryParams() {
 function onSetSortBy() {
     const prop = document.querySelector('.sort-by').value
     const isDesc = document.querySelector('.sort-desc').checked
-    // console.log(prop);
     if (!prop) return
 
     const sortBy = {}
@@ -334,8 +337,6 @@ function handleStats(stats, selector) {
     const labels = cleanStats(stats)
     const colors = utilService.getColors()
 
-    // console.log(stats,selector);
-
     var sumPercent = 0
     var colorsStr = `${colors[0]} ${0}%, `
     labels.forEach((label, idx) => {
@@ -354,7 +355,6 @@ function handleStats(stats, selector) {
     // colorsStr = `purple 0%, purple 33%, blue 33%, blue 67%, red 67%, red 100%`
 
     const elPie = document.querySelector(`.${selector} .pie`)
-    console.log(elPie);
     const style = `background-image: conic-gradient(${colorsStr})`
     elPie.style = style
 

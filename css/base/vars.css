@@ -1,22 +1,26 @@
-/* :root {
-    --bg1: rgb(63, 63, 63);
-    --bg2: rgb(26, 26, 26);
-    --bg3: rgb(54, 54, 54);
-    --color1: aliceblue;
-    --color2: deeppink;
-    --color3: gold;
-    --color4: goldenrod;
-    --gray1: lightgray;
-} */
 
 /* Another theme */
 :root {
     --bg1: rgb(212, 212, 212);
     --bg2: rgb(255, 255, 255);
     --bg3: rgb(229, 229, 229);
+    --bgTxt: rgb(27, 27, 27);
     --color1: rgb(30, 30, 30);
     --color2: rgb(94, 169, 240);
     --color3: rgb(211, 187, 48);
     --color4: rgb(90, 66, 6);
     --gray1: rgb(164, 164, 164);
+}
+
+
+.dark-mode {
+    --bg1: rgb(63, 63, 63);
+    --bg2: rgb(26, 26, 26);
+    --bg3: rgb(54, 54, 54);
+    --bgTxt: rgb(244, 244, 244);
+    --color1: aliceblue;
+    --color2: deeppink;
+    --color3: gold;
+    --color4: goldenrod;
+    --gray1: lightgray;
 }
