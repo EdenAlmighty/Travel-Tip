@@ -69,16 +69,20 @@ function renderLocs(locs) {
 }
 
 function onRemoveLoc(locId) {
-    locService.remove(locId)
-        .then(() => {
-            flashMsg('Location removed')
-            unDisplayLoc()
-            loadAndRenderLocs()
-        })
+    const isConfirmed = confirm('Are you sure?')
+    if (isConfirmed){
+        locService.remove(locId)
+            .then(() => {
+                flashMsg('Location removed')
+                unDisplayLoc()
+                loadAndRenderLocs()
+            })
+         
         .catch(err => {
             console.error('OOPs:', err)
             flashMsg('Cannot remove location')
         })
+    }
 }
 
 function onSearchAddress(ev) {
