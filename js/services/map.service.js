@@ -1,6 +1,4 @@
 
-import { keyService } from "./keys.service.js"
-
 export const mapService = {
     initMap,
     getUserPosition,
@@ -9,6 +7,9 @@ export const mapService = {
     lookupAddressGeo,
     addClickListener
 }
+
+import { keyService } from './keys.service.js'
+
 
 // TODO: Enter your API Key
 const API_KEY = keyService.getMapKey()

@@ -184,7 +184,7 @@ function displayLoc(loc) {
 
     mapService.panTo(loc.geo)
     mapService.setMarker(loc)
-    const distance = gUserPos ? 'Distance:' + utilService.getDistance(gUserPos, loc.geo, 'K') + ' km' : ''
+    const distance = gUserPos ? utilService.getDistance(gUserPos, loc.geo, 'K') + ' km' : ''
 
     const el = document.querySelector('.selected-loc')
     el.querySelector('.loc-name').innerText = loc.name
