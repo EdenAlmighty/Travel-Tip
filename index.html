@@ -18,6 +18,16 @@
             <button onclick="app.onCopyLoc()">Copy location</button>
             <button onclick="app.onShareLoc()">Share location</button>
             <input name="loc-copier" />
+            <div id="themeoptions">
+                <p value="light">Light</p>
+                <p value="dark">Dark</p>
+                <p value="blue">Blue</p>
+            </div>
+            
+            <h1>Click on a theme to change the color scheme!</h1>
+            <label for="color-theme">
+                <input oninput="changeColorTheme(this.value)" type="color" name="color" id="color">
+            </label>
         </section>
         <form class="form-search" onsubmit="app.onSearchAddress(event)">
             <input type="text" name="address" placeholder="Search address" />
@@ -57,10 +67,15 @@
                 </section>
                 <h3>Locations</h3>
                 <ul class="loc-list"></ul>
+                <h3>Statistics</h3>
                 <section class="loc-stats">
-                    <h3>Statistics</h3>
                     <div class="loc-stats-rate">
                         <h4>By rate:</h4>
+                        <div class="pie"></div>
+                        <ul class="legend"></ul>
+                    </div>
+                    <div class="loc-stats-update">
+                        <h4>By Last Update:</h4>
                         <div class="pie"></div>
                         <ul class="legend"></ul>
                     </div>
