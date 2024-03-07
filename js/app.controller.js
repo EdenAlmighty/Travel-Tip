@@ -181,7 +181,7 @@ function onSumbit(event) {
             rate: rate
         }
     } else {
-        gUserData.rate = rate.rate
+        gUserData.rate = rate
     }
     const elDialog = document.querySelector('.add-and-update')
     elDialog.style.display = 'none'

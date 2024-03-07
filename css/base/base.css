@@ -1,7 +1,6 @@
 body {
     background-color: var(--bg1);
     font-family: Arial, Helvetica, sans-serif;
-    color: var(--bgTxt);
     overflow-x: hidden;
 }
 
