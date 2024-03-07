@@ -11,6 +11,10 @@
 <body>
     <header>
         <h1>TravelTip</h1>
+        <label for="change-theme">
+            <button onclick="app.setTheme(event)">Change Theme</button>
+        </label>
+
         <section class="selected-loc">
             <h2>Location: <span class="loc-name"></span> <span class="loc-rate"></span></h2>
             <h4 class="loc-address"></h4>
@@ -18,16 +22,8 @@
             <button onclick="app.onCopyLoc()">Copy location</button>
             <button onclick="app.onShareLoc()">Share location</button>
             <input name="loc-copier" />
-
-            
-            <h1>Click on a theme to change the color scheme!</h1>
-            <label for="change-theme">
-                <button onclick="app.setTheme(event)">Change Theme!</button>
-            </label>
-            <!-- <label for="color-theme">
-                <input oninput="changeColorTheme(this.value)" type="color" name="color" id="color">
-            </label> -->
         </section>
+        
         <form class="form-search" onsubmit="app.onSearchAddress(event)">
             <input type="text" name="address" placeholder="Search address" />
             <button title="Search">🔍</button>
