@@ -24,7 +24,7 @@ window.app = {
 
 var gUserPos = ''
 var gKeepResolve
-var gUserData
+var gUserData = {}
 
 function onInit() {
     loadAndRenderLocs()
@@ -181,7 +181,7 @@ function onSumbit(event) {
             rate: rate
         }
     } else {
-        gUserData.rate = rate
+        gUserData.rate = rate.rate
     }
     const elDialog = document.querySelector('.add-and-update')
     elDialog.style.display = 'none'
